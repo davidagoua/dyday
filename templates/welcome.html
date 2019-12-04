@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block base-body %}
+<div class="container mt-3">
+    <div class="white border p-3">
+        <h3 class="text-center text-info font-weight-bold">DyDay</h3>
+        <hr>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'signup' %}" class="btn btn-info">S'inscrire</a>
+            <a href="{% url 'login' %}" class="btn btn-info">Se connecter</a>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="p-3 grey-text text-center">
+                    <h2><span class="fa fa-users"></span></h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium amet architecto aspernatur autem, corporis doloremque error ex, fugit harum hic laborum nam necessitatibus nemo officia pariatur, placeat quam rem voluptatibus.</p>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="p-3 grey-text text-center">
+                    <h2><span class="fa fa-jira"></span></h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium amet architecto aspernatur autem, corporis doloremque error ex, fugit harum hic laborum nam necessitatibus nemo officia pariatur, placeat quam rem voluptatibus.</p>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="p-3 grey-text text-center">
+                    <h2><span class="fa fa-fire"></span></h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium amet architecto aspernatur autem, corporis doloremque error ex, fugit harum hic laborum nam necessitatibus nemo officia pariatur, placeat quam rem voluptatibus.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

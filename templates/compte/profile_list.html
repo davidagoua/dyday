@@ -1,0 +1,29 @@
+{% extends 'home.html' %}
+
+{% load static %}
+
+
+{% block home-body %}
+<div class="col-6">
+    <div class="white border p-3">
+        <h3 class="grey-text">Profile qui pourrait vous interreser :)</h3>
+        <hr>
+        <div class="">
+            {% for profile in profiles %}
+            <div class="d-flex border p-2 mb-2">
+                <img width="80" src="/medias/{{ profile.avatar }}" alt="" height="80" class="rounded-circle">
+                <div class="flex-grow-1 pl-3">
+                    <div><a class="font-weight-bold" href="{% url 'compte:profile' profile.slug %}">{{ profile.user.username|title }}</a></div>
+                    <p class="grey-text">{{ profile.info }}</p>
+                    <div class="d-flex">
+                        <a class="font-weight-bold btn btn-info btn-sm" href="{% url 'compte:suivre' profile.pk %}?next={{ request.path }}"><span class="fa fa-plus"></span> Suivre</a>
+                        <a class="font-weight-bold btn btn-info btn-sm" href="{% url 'compte:profile' profile.slug %}"><span class="fa fa-user"></span> Voir le profile</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

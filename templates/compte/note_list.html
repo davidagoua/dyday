@@ -1,0 +1,23 @@
+{% extends 'home.html' %}
+
+{% load static %}
+
+
+{% block home-body %}
+<div class="col-6">
+    <div class="white border p-3">
+        <h3 class="grey-text">Vos Notifications</h3>
+        <hr>
+        <div class="">
+            {% for note in notes %}
+            <div class="d-flex border p-2 mb-2">
+                <div>{{ note.text }}</div>
+                <br>
+                <small class="text-muted d-block">{{ note.time|timesince }}</small>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

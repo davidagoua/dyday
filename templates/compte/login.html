@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block base-body %}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="white border">
+                <div class="border-bottom p-3">
+                    <a href="{% url 'welcome' %}" class="p-1 rounded-circle bg-info white-text"><span class="fa fa-arrow-left"></span></a>
+                    <span class="grey-text">INSCRIVEZ-VOUS</span>
+                </div>
+                <div class="p-3">
+                    {% if form.has_error or error %}
+                        <div class="alert alert-danger">
+                        {% for error in form.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                        <p class="font-weight-bold">Nom d'utilisateur ou mot de passe incorrecte !</p>
+                        </div>
+                    {% endif %}
+                    <form action="{% url 'login' %}" method="post" class="grey-text">
+
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-info btn-sm" type="submit">Se connecter'</button>
+                            <a href="{% url 'signup' %}" class="grey-text font-weight-bold">Je veux m'inscrire</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

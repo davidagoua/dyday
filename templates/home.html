@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block base-body %}
+<div class="navbar navbar-expand-lg navbar-dark bg-info">
+    <div class="navbar-brand">SocialNetwork</div>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a href="{% url 'home' %}" class="nav-link font-weight-bold">Accueil</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link font-weight-bold">Discussions</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link font-weight-bold">Notification</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link font-weight-bold">Contact</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="white py-2 sticky-top">
+    <div class="container">
+        <div class="d-flex">
+            <form action="" class="flex-grow-1 d-flex align-items-center">
+                <input type="text" class="form-control grey-text flex-grow-1" placeholder="Rechercher sur SocialNetwork">
+                <button class="btn btn-info btn-sm"><span class="fa fa-search"></span></button>
+            </form>
+            <div class="nav px-3 d-flex">
+                <a href="{% url 'compte:profile_list' %}" class="px-1">
+                    <span class="fa fa-users grey-text fa-2x"></span><small class="badge badge-danger rounded-circle">{{ suggestions.count }}</small>
+                </a>
+                <a href="{% url 'compte:note_list' %}" class="px-1">
+                    <span class="fa fa-bell grey-text fa-2x"></span><small class="badge badge-danger rounded-circle">{{ request.user.notebox.notfications.count }}</small>
+                </a>
+                <div class="dropdown px-1">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="/medias/{{ request.user.profile.avatar }}" height="30" width="30" class="rounded-circle" alt="">
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="" class="dropdown-item">
+                            <span class="fa fa-user"></span>
+                            <span>Profile</span>
+                        </a>
+                        <a href="" class="dropdown-item">
+                            <span class="fa fa-user"></span>
+                            <span>Profile</span>
+                        </a>
+                        <a href="{% url 'compte:profile' request.user.profile.slug %}" class="dropdown-item grey-text">
+                            <span class="fa fa-user"></span>
+                            <span>Modifier Profile</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{% url 'logout' %}" class="dropdown-item grey-text">
+                            <span class="fa fa-sign-out-alt"></span>
+                            <span>Se deconnecter</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-3 col-12">
+            <div class="white border mb-4">
+                <div class="border-bottom grey-text py-2 px-3">MENU</div>
+                <div class="nav flex-md-column">
+                    <a href="{% url 'home' %}" class="nav-link grey-text">
+                        <span class="fa fa-globe-africa mr-3"></span>
+                        <span class="d-none d-md-inline">Fil d'actualités</span>
+                    </a>
+                    <a href="" class="nav-link grey-text">
+                        <span class="fa fa-pen mr-3"></span>
+                        <span class="d-none d-md-inline">Publications</span>
+                    </a>
+                    <a href="" class="nav-link grey-text">
+                        <span class="fa fa-video mr-3"></span>
+                        <span class="d-none d-md-inline">Videos</span>
+                    </a>
+                    <a href="" class="nav-link grey-text">
+                        <span class="fa fa-rss mr-3"></span>
+                        <span class="d-none d-md-inline">Flux</span>
+                    </a>
+                </div>
+            </div>
+            <div class="white border mb-4">
+                <div class="p-2 grey-text border-bottom">FORUM</div>
+                <div class="p-2 grey-text">
+                    <span>Membre d'aucun forum !</span>
+                    <button class="btn btn-outline-info shadow-none rounded btn-sm">Joindre un forum</button>
+                </div>
+            </div>
+            <div class="white border mb-4">
+                <div class="border-bottom grey-text py-2 px-3">PLUGIN</div>
+                <div class="nav flex-column">
+                    <a href="" class="nav-link grey-text">
+                        <span class="fa fa-adobe mr-3"></span>
+                        <span>Adobe</span>
+                    </a>
+                    <a href="" class="nav-link grey-text">
+                        <span class="fa fa-youtube mr-3"></span>
+                        <span>Youtube</span>
+                    </a>
+                    <a href="" class="nav-link grey-text">
+                        <span class="fa fa-facebook mr-3"></span>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="" class="nav-link grey-text">
+                        <span class="fa fa-instagram mr-3"></span>
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% block home-body %}
+        <div class="col-12 col-md-6">
+            <div class="white border">
+                <form name="postform" action="{% url 'blog:poster' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <textarea name="texte" id="id_texte" required cols="30" rows="3" placeholder="Quoi de neuf ?..." class="grey-text form-control border-0"></textarea>
+                    <div class="nav border-top d-flex justify-content-between align-items-center">
+                        <div class="nav">
+                            <span class="label label-info" name="image_path"></span>
+                            <input class="hidden" accept="image/*" type="file" name="image" id="id_image">
+                            <a href="" onclick="getFile()" class="px-3"><span class="fa fa-image grey-text"></span></a>
+                            <a href="" class="px-3"><span class="fa fa-video grey-text"></span></a>
+                            <a href="" class="px-3"><span class="fa fa-link grey-text"></span></a>
+                            <a href="" class="px-3"><span class="fa fa-folder grey-text"></span></a>
+                        </div>
+                        <button class="btn btn-sm btn-info"><span class="fa fa-paper-plane"></span> Publier &nbsp;</button>
+                    </div>
+                </form>
+            </div>
+            <div class="mt-3">
+                {% include 'blog/postview.html' %}
+            </div>
+        </div>
+        {% endblock %}
+
+        <div class="col-12 col-md-3">
+            <div class="white border mb-4">
+                <div class="border-bottom grey-text py-2 px-3">ABONNES</div>
+                <div class="nav flex-column">
+                    {% for user in abonnes %}
+                    <div class="nav-item">
+                        <div  class="nav-link d-flex">
+                            <img src="/medias/{{ user.profile.avatar }}" height="35" width="35" class="rounded-circle media-left" alt="">
+                            <div class="media-body flex-grow-1 ml-2">
+                                <a href="{% url 'compte:profile' user.profile.slug  %}" class="font-weight-bold text-info">{{ user.username}}</a> -
+                                <a href="{% url 'compte:suivre' user.profile.pk %}?next={{ request.path }}" class="small font-weight-bold grey-text">Suivre</a><br>
+                                <small class="text-muted">25 abonnements en communs</small>
+                            </div>
+                        </div>
+                    </div>
+                        {% empty %}
+                        <div class="grey-text p-2">Aucun n'abonné pour l'instant</div>
+                    {% endfor %}
+
+
+                    <div class="dropdown-divider"></div>
+                    <a href="" class="nav-link">Voir tous</a>
+                </div>
+            </div>
+            <div class="white border mb-4">
+                <div class="border-bottom grey-text py-2 px-3">ABONNEMENTS</div>
+                <div class="nav flex-column">
+                    {% for profile in abonnements %}
+                    <div class="nav-item ">
+                        <div class="nav-link d-flex ">
+                            <a href="{% url 'compte:profile' profile.slug%}"><img src="/medias/{{ profile.avatar }}" height="35" width="35" class="rounded-circle media-left" alt=""></a>
+                            <div class="flex-grow-1 ml-2">
+                                <a href="{% url 'compte:profile' profile.slug%}" class="font-weight-bold text-info">{{ profile.user.username }}</a> -
+                                <a href="{% url 'compte:forget' profile.pk %}?next={{ request.path }}" class="font-weight-bold grey-text small">Abandonner</a><br>
+                                <small class="text-muted">25 abonnements en communs</small>
+                            </div>
+                        </div>
+                    </div>
+                        {% empty %}
+                        <div class="grey-text p-2">Aucun n'abonnements pour l'instant</div>
+                    {% endfor %}
+
+                    <div class="dropdown-divider"></div>
+                    <a href="" class="nav-link">Voir tous</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function getFile(){
+            document.postform.image.click();
+            document.postform.image_path.innerHTML = document.postform.image.value;
+        }
+
+    </script>
+{% endblock %}

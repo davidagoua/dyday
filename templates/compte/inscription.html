@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block base-body %}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="white border">
+                <div class="border-bottom p-3">
+                    <a href="{% url 'welcome' %}" class="p-1 rounded-circle bg-info white-text"><span class="fa fa-arrow-left"></span></a>
+                    <span class="grey-text">INSCRIVEZ-VOUS</span>
+                </div>
+                <div class="p-3">
+                    {% if form.has_error %}
+                        <div class="alert alert-danger">
+                        {% for error in form.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+
+                        </div>
+                    {% endif %}
+                    <form action="{% url 'signup' %}" method="post" class="grey-text">
+
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-info btn-sm" type="submit">S'inscrire'</button>
+                            <a href="{% url 'login' %}" class="grey-text font-weight-bold">Je veux me connecter</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% for poste in postes %}
+<div class="white p-3 border">
+    <div class="d-flex align-items-center">
+        <img src="/medias/{{ poste.user.profile.avatar }}" height="40" width="40" class="rounded-circle" alt="">
+        <div class="ml-2 flex-grow-1">
+            <a href="{% url 'compte:profile' poste.user.profile.pk %}" class="font-weight-bold text-info">{{ poste.user.username|title }}</a>
+        </div>
+        <small class="text-muted">
+            il y'a {{ poste.time|timesince }} . <span class="fa fa-globe-africa"></span>
+        </small>
+    </div>
+    <div class="py-1">
+        <p>{{ poste.texte }}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div class="nav">
+            <a onclick="liker()" class="grey-text px-2"><span class="fa fa-thumbs-up"></span></a>
+            <a href="" class="grey-text px-2" data-toggle="collapse" data-target="#comment-collapse-id"><span class="fa fa-comments"></span></a>
+            <a href="" class="grey-text px-2"><span class="fa fa-share-alt"></span></a>
+        </div>
+        <span class="grey-text small font-weight-bold"><span id="nb_likes_{{ poste.pk }}">{{ poste.likers.count }}</span> personnes ont liker</span>
+    </div>
+    <div class="collapse py-2" id="comment-collapse-id">
+        <div class="nav flex-column">
+            <div class="nav-item media">
+                <img src="assets/img/avatar.jpg" height="35" width="35" class="rounded-circle media-left" alt="">
+                <div class="media-body">
+                    <a href="" class="font-weight-bold text-info">Annette Doe</a> - <span class="text-muted small">il y 15 min</span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <form action="" class="form-inline">
+            <textarea placeholder="Commenter cette publication..." name="" id="" cols="30" rows="1" class="grey-text form-control border-0"></textarea>
+            <button class="btn btn-sm btn-info">Commenter</button>
+        </form>
+    </div>
+</div>
+<script>
+    function liker(){
+        $.ajax({
+            url: '{% url 'blog:liker' poste.pk %}',
+            success: function(data){
+                alert(data.likes);
+            }
+        })
+    }
+    setTimeout(function(){
+        $('#nb_likes_{{ poste.pk }}').change('{% url 'blog:liker' poste.pk %}', function (response, statut, xhr) {
+            $('#nb_likes_{{ poste.pk }}').html(response.likes);
+        });
+        console.log(response.likes)
+    }, 500);
+</script>
+{% endfor %}

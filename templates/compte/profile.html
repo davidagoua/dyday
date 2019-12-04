@@ -1,0 +1,51 @@
+{% extends 'home.html' %}
+
+
+{% block home-body %}
+<div class="col-6">
+            <div class="white border p-3 mb-3">
+                <div class="d-flex">
+                    <div class="w-25 text-center">
+                        <img src="/medias/{{ profile.avatar }}" height="100" class="rounded-circle border border-info" alt="">
+                        <div class="bg-info white-text mt-3 p-2 rounded text-center font-weight-bold">{{ profile.user.username|title }}</div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="nav flex-column grey-text">
+                            <span class="nav-link">
+                                <span class="fa fa-phone mr-2"></span>
+                                <span>{{ profile.contact|default:'Auncun' }}</span>
+                            </span>
+                            <span class="nav-link">
+                                <span class="fa fa-mail-bulk mr-2"></span>
+                                <span>{{ profile.user.email|default:'Auncun' }}</span>
+                            </span>
+                            <span class="nav-link">
+                                <span class="fa fa-location-arrow mr-2"></span>
+                                <span>{{ profile.address|default:'Auncun' }}</span>
+                            </span>
+                            <span class="nav-link">
+                                <blockquote class="blockquote bq-info ">
+                                    <span class="fa fa-quote-left"></span><br>
+                                    {{ profile.info|linebreaks }}<span class="fa fa-quote-right">
+                                </blockquote>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if request.user.profile == profile %}
+            <div class="white border mb-3">
+                <div class="border border-bottom p-3">
+                    <span class="grey-text">MODIFIER MON PROFILE</span>
+                </div>
+                <form method="post" enctype="multipart/form-data" action="{% url 'compte:profile_update' profile.slug %}"  class="p-3 grey-text">
+                    {% csrf_token %}
+                    {{ update_form.as_p }}
+                    <p>
+                        <button class="btn btn-info btn-sm" type="submit">Modifier</button>
+                    </p>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+{% endblock %}
